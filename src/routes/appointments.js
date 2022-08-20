@@ -27,6 +27,7 @@ module.exports = (db, updateAppointment) => {
   });
 
   router.put("/appointments/:id", (request, response) => {
+    console.log("SERVER TEST");
     if (process.env.TEST_ERROR) {
       setTimeout(() => response.status(500).json({}), 1000);
       return;
@@ -48,7 +49,7 @@ module.exports = (db, updateAppointment) => {
           updateAppointment(Number(request.params.id), request.body.interview);
         }, 1000);
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   });
 
   router.delete("/appointments/:id", (request, response) => {
@@ -58,7 +59,7 @@ module.exports = (db, updateAppointment) => {
     }
 
     db.query(`DELETE FROM interviews WHERE appointment_id = $1::integer`, [
-      request.params.id
+      request.params.id,
     ]).then(() => {
       setTimeout(() => {
         response.status(204).json({});
